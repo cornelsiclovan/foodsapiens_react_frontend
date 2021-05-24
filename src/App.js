@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Orders from './orders/pages/Orders';
+import PopulateDatabase from './orders/pages/PopulateDatabase';
 
 let routes;
 
@@ -8,8 +8,9 @@ const App = () => {
     routes = (
         <Switch>
             <Route path="/" exact>
-                <Orders />
+                <PopulateDatabase />
             </Route>
+            
         </Switch>
     );
 
