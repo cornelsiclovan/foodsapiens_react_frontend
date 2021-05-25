@@ -56,10 +56,13 @@ const PopulateDatabase = (props) => {
                             name: "",
                             startDate : "",
                             endDate: "",
-                            occurence: ""
+                            occurence: "",
+                            product_id: ""
                         }
                         line_item.name = l_i.name;
                         
+                        line_item.product_id = l_i.meta_data[1].value.product_id;
+
                         let dt = new Date(l_i.meta_data[2].value);
             
                         

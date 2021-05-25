@@ -8,12 +8,12 @@ const Orders = () => {
     const [loadedOrders, setLoadedOrders] = useState();
 
     useEffect(() => {
-        const fetchOrders = async () => {
+        const fetchItems = async () => {
             const response = sendRequest();
         }
 
-        fetchOrders();
-    }, [])
+        fetchItems();
+    }, [sendRequest])
 
     return (
         <React.Fragment>
