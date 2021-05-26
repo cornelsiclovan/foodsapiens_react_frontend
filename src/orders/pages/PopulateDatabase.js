@@ -57,11 +57,20 @@ const PopulateDatabase = (props) => {
                             startDate : "",
                             endDate: "",
                             occurence: "",
-                            product_id: ""
+                            product_id: "",
+                            calorii: ""
                         }
                         line_item.name = l_i.name;
                         
                         line_item.product_id = l_i.meta_data[1].value.product_id;
+
+                        if(typeof l_i.meta_data[0].value === "string")  {
+                            line_item.calorii = l_i.meta_data[0].value.split(" ")[0];
+                        }
+                      
+
+                        //line_item.calorii = l_i.meta_data[0].display_value.split(' ')[0];
+
 
                         let dt = new Date(l_i.meta_data[2].value);
             

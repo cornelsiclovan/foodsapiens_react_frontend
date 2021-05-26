@@ -8,8 +8,13 @@ const Orders = () => {
     const [loadedOrders, setLoadedOrders] = useState();
 
     useEffect(() => {
+          
         const fetchItems = async () => {
-            const response = sendRequest();
+            try {  
+                const response = await sendRequest('http://localhost:5000/api/items');
+                console.log(response);
+        
+            } catch(err) {}
         }
 
         fetchItems();
