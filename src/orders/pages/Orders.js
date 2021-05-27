@@ -10,10 +10,20 @@ const Orders = () => {
     useEffect(() => {
           
         const fetchItems = async () => {
+            console.log('fetching items')
             try {  
-                const response = await sendRequest('http://localhost:5000/api/items');
-                console.log(response);
+
+               
+
+                let today = new Date().toISOString().slice(0, 10)
+                today = today + "T00:00:000Z";
+
+                console.log(today);
+
+                const response = await sendRequest('http://localhost:5000/api/items?today='+today);
+               setLoadedOrders(response);
         
+            
             } catch(err) {}
         }
 
@@ -28,5 +38,7 @@ const Orders = () => {
         </React.Fragment>
     );
 }
+
+
 
 export default Orders;

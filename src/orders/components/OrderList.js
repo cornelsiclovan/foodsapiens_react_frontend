@@ -1,13 +1,19 @@
 import React from 'react';
+import OrderItem from './OderItem';
 
 const OrderList = (props) => {
    
-    
+    console.log(props.items.items);
     
     return (
-        <React.Fragment>
-            <div>Order list</div>
-        </React.Fragment>
+        <div>
+            {
+                props.items.items.map(item => {
+                        return  <OrderItem item={item}/>;
+                        }
+                    )
+            }
+        </div>
     );
 }
 

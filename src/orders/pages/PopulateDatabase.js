@@ -98,7 +98,7 @@ const PopulateDatabase = (props) => {
                         //console.log(occurence);
                         line_item.endDate = new Date((occurence - 1)*86400000 + +dt)
             
-            
+                        
             
                         items.push(line_item);      
                         return 1;
@@ -164,7 +164,7 @@ const PopulateDatabase = (props) => {
             }
 
             {
-                !isLoading && loadedOrders && <OrderList items={loadedOrders} />
+                
             }
         </React.Fragment>
     );
