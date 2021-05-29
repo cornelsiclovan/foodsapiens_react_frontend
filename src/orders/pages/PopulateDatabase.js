@@ -85,6 +85,8 @@ const PopulateDatabase = (props) => {
                         
                         line_item.occurence = occurence;
             
+                        
+
                         let weekends = Math.ceil(occurence/5)
                         //console.log("weekends"+ weekends);
             

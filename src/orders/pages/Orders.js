@@ -12,13 +12,18 @@ const Orders = () => {
         const fetchItems = async () => {
             console.log('fetching items')
             try {  
+                // Preiau astazi meniul pentru maine. 
+                // Cazul in care astazi e sambata preiau meniul pentru
+                // poimaine. Data se preia in variabila today
+                
+                let skipDays = new Date().getDay() === 6 ? 2 : 1;
 
-               
-
-                let today = new Date().toISOString().slice(0, 10)
+                let today = new Date(skipDays * 86400000 + +new Date()).toISOString().slice(0, 10);
+                
+                //console.log(skipDays);
                 today = today + "T00:00:000Z";
 
-                console.log(today);
+                //console.log(today);
 
                 const response = await sendRequest('http://localhost:5000/api/items?today='+today);
                setLoadedOrders(response);
