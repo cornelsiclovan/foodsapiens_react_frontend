@@ -5,15 +5,27 @@ const OrderItem = (props) => {
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const [product, setProduct] = useState();
 
+    console.log(props.item.occurrenceArray);
+    console.log(props.item.startDate);
+    console.log(props.item.endDate);
+    console.log(props.item.wp_id);
 
+
+    var diff =  Math.floor(( Date.parse(props.item.endDate) - Date.parse(props.item.startDate) ) / 86400000); 
+    console.log(diff + 1);
+
+    let dateInOccurenceArray = new Date(1 * 86400000 + +new Date());
+    
+    diff =  Math.floor(( Date.parse(dateInOccurenceArray) - Date.parse(props.item.startDate) ) / 86400000); 
+    console.log(diff + 1);
 
     useEffect(() => {
-        console.log("test");
+       
         const fetchProducts = async () => {
             try{
                 const response = sendRequest("https://foodsapiens.ro/wp-json/wc/v3/products?include=" + props.item.product_id + "&consumer_key=ck_3adcec890b5e616f0bede6b1b5226d0403eef3e1&consumer_secret=cs_dca5446d5eca811adfadac965943d8c0856f2fb0");
             
-                console.log(response);
+                //console.log(response);
                 response.then(result => setProduct(result));
 
 
@@ -28,7 +40,7 @@ const OrderItem = (props) => {
     
     if(product) {
         a = product[0].short_description.split("</p>\n<p>");
-        console.log(a);
+        //console.log(a);
     }
 
 
@@ -56,7 +68,7 @@ const OrderItem = (props) => {
     dOfYear += skipDays;
 
 
-    console.log("day of year", dOfYear);
+    //console.log("day of year", dOfYear);
     
     // To verify if weekOfyear is correct ??????????
  
@@ -68,7 +80,7 @@ const OrderItem = (props) => {
    
     let currentMenu = 1;
 
-    console.log(a.length);
+    //console.log(a.length);
     if(a.length < 12) {
         if(weekOfYear%2 === 0){
             currentMenu = 2;
@@ -76,7 +88,7 @@ const OrderItem = (props) => {
     }
 
     let menuDay = new Date(skipDays * 86400000 + +new Date());
-    console.log(menuDay.getDay());
+    //console.log(menuDay.getDay());
 
 
 
@@ -85,7 +97,7 @@ const OrderItem = (props) => {
         currentMenu  = weekOfYear % 4;
     }
 
-    console.log(currentMenu);
+    //console.log(currentMenu);
 
     let menuItemPosition = menuDay.getDay();
 
@@ -99,10 +111,10 @@ const OrderItem = (props) => {
     let pranz = "";
     let cina = "";
 
-    console.log(a !== undefined);
-    console.log(menuItemPosition !== undefined);
-    console.log(a);
-    console.log(menuItemPosition);
+    //console.log(a !== undefined);
+    //console.log(menuItemPosition !== undefined);
+    //console.log(a);
+    //console.log(menuItemPosition);
 
     if( a !== undefined && a.length > 0 && menuItemPosition !== undefined) {
         indexDelete = a[menuItemPosition].split('</strong>')[2].indexOf('<');

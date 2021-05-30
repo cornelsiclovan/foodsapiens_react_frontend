@@ -42,12 +42,17 @@ const PopulateDatabase = (props) => {
                         name: "",
                         address1: "",
                         address2: "",
-                        city: ""
+                        city: "",
+                        date_created: "",
+                        date_modified: ""
                     };
             
                     order.id = item.id;
                     
-                    
+
+
+                    order.date_created = new Date(item.date_created);
+                    order.date_modified = new Date(item.date_modified);
             
                     let items = [];
             
@@ -90,10 +95,13 @@ const PopulateDatabase = (props) => {
                         let weekends = Math.ceil(occurence/5)
                         //console.log("weekends"+ weekends);
             
-                        if(dt.getDay()%1 > 0) {
-                            weekends ++;
+                        //console.log("modulo 1",dt.getDay()%1);
+
+                        if(dt.getDay()  > 1 && l_i.name.split(' ')[0] === 'Abonament') {
+                            weekends = weekends + 1;
                         }
             
+                        //console.log("weekends" + weekends);
             
                         occurence = parseInt(occurence) + parseInt((weekends-1)*2);
             
@@ -139,7 +147,9 @@ const PopulateDatabase = (props) => {
                             "address2": order.address2,
                             "city": order.city,
                             "items": order.items,
-                            "name": order.name
+                            "name": order.name,
+                            "date_created": order.date_created,
+                            "date_modified": order.date_modified
                         }),
                         {
                             'Content-Type': 'application/json'

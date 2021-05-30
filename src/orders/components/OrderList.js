@@ -3,7 +3,7 @@ import OrderItem from './OderItem';
 
 const OrderList = (props) => {
    
-    console.log(props.items.items);
+    //console.log(props.items.items);
     
     return (
         <div>
