@@ -23,7 +23,7 @@ const Orders = () => {
                 //console.log(skipDays);
                 today = today + "T00:00:000Z";
 
-                //console.log(today);
+                // console.log(today);
 
                 const response = await sendRequest('http://localhost:5000/api/items?today='+today);
                setLoadedOrders(response);

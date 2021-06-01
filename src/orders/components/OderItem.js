@@ -5,6 +5,7 @@ const OrderItem = (props) => {
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const [product, setProduct] = useState();
 
+    console.log(new Date());
     console.log(props.item.occurrenceArray);
     console.log(props.item.startDate);
     console.log(props.item.endDate);
@@ -16,7 +17,11 @@ const OrderItem = (props) => {
 
     let dateInOccurenceArray = new Date(1 * 86400000 + +new Date());
     
+    
+
     diff =  Math.floor(( Date.parse(dateInOccurenceArray) - Date.parse(props.item.startDate) ) / 86400000); 
+    
+    
     console.log(diff + 1);
 
     useEffect(() => {
