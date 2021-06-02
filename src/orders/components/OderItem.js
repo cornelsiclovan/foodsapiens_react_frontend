@@ -5,24 +5,36 @@ const OrderItem = (props) => {
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const [product, setProduct] = useState();
 
-    console.log(new Date());
-    console.log(props.item.occurrenceArray);
-    console.log(props.item.startDate);
-    console.log(props.item.endDate);
-    console.log(props.item.wp_id);
+    //console.log(new Date());
+    //console.log(props.item.occurrenceArray);
+    //console.log(props.item.startDate);
+    //console.log(props.item.endDate);
+    //console.log(props.item.wp_id);
 
 
-    var diff =  Math.floor(( Date.parse(props.item.endDate) - Date.parse(props.item.startDate) ) / 86400000); 
-    console.log(diff + 1);
+    let diff =  Math.floor(( Date.parse(props.item.endDate) - Date.parse(props.item.startDate) ) / 86400000); 
+    //console.log(diff + 1);
 
     let dateInOccurenceArray = new Date(1 * 86400000 + +new Date());
     
-    
+    //console.log(props.item.product_id);
 
     diff =  Math.floor(( Date.parse(dateInOccurenceArray) - Date.parse(props.item.startDate) ) / 86400000); 
     
     
-    console.log(diff + 1);
+    //console.log(diff + 1);
+
+   let singleItem = false;
+   let singleItemName = '';
+
+   let singleDayMenu = false;
+
+    //console.log(props.item);
+
+   if(props.item.product_id === undefined) {
+      singleItem = true;
+      singleItemName = props.item.name;
+   }
 
     useEffect(() => {
        
@@ -42,12 +54,17 @@ const OrderItem = (props) => {
     }, [sendRequest])
 
     let a = [];
-    
-    if(product) {
-        a = product[0].short_description.split("</p>\n<p>");
-        //console.log(a);
-    }
 
+    //console.log(singleItem);
+
+    if(product && !singleItem) {
+        a = product[0].short_description.split("</p>\n<p>");
+        if(a.length === 4) {
+            singleDayMenu = true;
+        }
+    } 
+
+    //console.log(singleDayMenu);
 
     const dayOfYear = date =>
         Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
@@ -116,15 +133,18 @@ const OrderItem = (props) => {
     let pranz = "";
     let cina = "";
 
-    //console.log(a !== undefined);
-    //console.log(menuItemPosition !== undefined);
-    //console.log(a);
-    //console.log(menuItemPosition);
+    if(singleDayMenu && currentMenu === 1) {
+        menuItemPosition = 1;
+    }
 
-    if( a !== undefined && a.length > 0 && menuItemPosition !== undefined) {
+    if(singleDayMenu && currentMenu === 2) {
+        menuItemPosition = 3;
+    }
+
+    if( !singleDayMenu && !singleItem && a !== undefined && a.length > 0 && menuItemPosition !== undefined && a[menuItemPosition] !== undefined) {
         indexDelete = a[menuItemPosition].split('</strong>')[2].indexOf('<');
         micDejun =  a[menuItemPosition].split('</strong>')[2].slice(0, indexDelete);
-        //micDejun = micDejun.slice(indexDelete, -1);
+       
         indexDelete = a[menuItemPosition].split('</strong>')[3].indexOf('<');
         pranz =  a[menuItemPosition].split('</strong>')[3].slice(0, indexDelete);
 
@@ -132,15 +152,30 @@ const OrderItem = (props) => {
         cina = a[menuItemPosition].split('</strong>')[4].slice(0, indexDelete);
     }
 
+    if(singleDayMenu) {
+        indexDelete = a[menuItemPosition].split('</strong>')[1].indexOf('<');
+        micDejun =  a[menuItemPosition].split('</strong>')[1].slice(0, indexDelete);
+        
+        indexDelete = a[menuItemPosition].split('</strong>')[2].indexOf('<');
+        pranz =  a[menuItemPosition].split('</strong>')[2].slice(0, indexDelete);
 
+        indexDelete = a[menuItemPosition].split('</strong>')[3].indexOf('<');
+        cina = a[menuItemPosition].split('</strong>')[3].slice(0, indexDelete);
+    }
 
+    console.log("diff", diff);
+    //console.log("occurrenceArray", props.item.occurrenceArray);
 
     return (
         <React.Fragment>
-            {/* {product && product[0].short_description} */}
-            <div style={{color: 'white'}}>Mic dejun: {a && menuItemPosition && micDejun}</div>
-            <div style={{color: 'white'}}>Pranz: {a && menuItemPosition && pranz}</div>
-            <div style={{color: 'white'}}>Cina: {a && menuItemPosition && cina}</div>
+         
+           {!singleItem && a && menuItemPosition && <div style={{color: 'white'}}>Mic dejun: {micDejun}</div>}
+           {!singleItem && a && menuItemPosition && <div style={{color: 'white'}}>Pranz: { pranz}</div>}
+           {!singleItem && a && menuItemPosition && <div style={{color: 'white'}}>Cina: { cina}</div>}
+           {singleItem && <div style={{color: 'white'}}>Meniu singular: {singleItemName}</div>}
+           {!singleItem &&<div style={{color: 'white'}}>Numar calorii: {props.item.calorii}</div>}
+            { props.item.occurrenceArray[diff] === 0 && <div style={{color: 'white'}}>Status: {<span style={{color:'red'}}>Negatit</span>}</div>}
+            { props.item.occurrenceArray[diff] === 1 &&<div style={{color: 'white'}}>Status: {<span style={{color:'green'}}>Gatit</span>}</div>}
            <br />
            <br />
         </React.Fragment>

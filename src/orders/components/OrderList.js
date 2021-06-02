@@ -3,12 +3,12 @@ import OrderItem from './OderItem';
 
 const OrderList = (props) => {
    
-    //console.log(props.items.items);
+    console.log(props.items.items);
     
     return (
         <div>
             {
-                props.items.items.map(item => {
+                props.items.items && props.items.items.map(item => {
                         return  <OrderItem item={item}/>;
                         }
                     )

@@ -10,7 +10,7 @@ const Orders = () => {
     useEffect(() => {
           
         const fetchItems = async () => {
-            console.log('fetching items')
+            //console.log('fetching items')
             try {  
                 // Preiau astazi meniul pentru maine. 
                 // Cazul in care astazi e sambata preiau meniul pentru
