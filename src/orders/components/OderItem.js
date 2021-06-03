@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { useHttpClient } from '../../hooks/http-hook';
+import Button from '../../UIElements/Button';
 
 const OrderItem = (props) => {
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -163,21 +164,40 @@ const OrderItem = (props) => {
         cina = a[menuItemPosition].split('</strong>')[3].slice(0, indexDelete);
     }
 
-    console.log("diff", diff);
+    //console.log("diff", diff);
     //console.log("occurrenceArray", props.item.occurrenceArray);
+
+    const onClickHandler = (event) => {
+       event.preventDefault();
+
+        console.log(event.target.dataset.item_id);
+    }
+
+    console.log(props.item._id);
+    console.log(props.item._id);
 
     return (
         <React.Fragment>
-         
-           {!singleItem && a && menuItemPosition && <div style={{color: 'white'}}>Mic dejun: {micDejun}</div>}
-           {!singleItem && a && menuItemPosition && <div style={{color: 'white'}}>Pranz: { pranz}</div>}
-           {!singleItem && a && menuItemPosition && <div style={{color: 'white'}}>Cina: { cina}</div>}
-           {singleItem && <div style={{color: 'white'}}>Meniu singular: {singleItemName}</div>}
-           {!singleItem &&<div style={{color: 'white'}}>Numar calorii: {props.item.calorii}</div>}
-            { props.item.occurrenceArray[diff] === 0 && <div style={{color: 'white'}}>Status: {<span style={{color:'red'}}>Negatit</span>}</div>}
-            { props.item.occurrenceArray[diff] === 1 &&<div style={{color: 'white'}}>Status: {<span style={{color:'green'}}>Gatit</span>}</div>}
+            <br />
+           {!singleItem && a && menuItemPosition && <div style={{color: 'white'}}><b>Mic dejun: </b> {micDejun}</div>}
+           {!singleItem && a && menuItemPosition && <div style={{color: 'white'}}><b>Pranz: </b> { pranz}</div>}
+           {!singleItem && a && menuItemPosition && <div style={{color: 'white'}}><b>Cina: </b> { cina}</div>}
+           {singleItem && <div style={{color: 'white'}}><b>Meniu singular: </b> {singleItemName}</div>}
+           {!singleItem &&<div style={{color: 'white'}}>Numar calorii: <b> {props.item.calorii}</b></div>}
+            { props.item.occurrenceArray[diff] === 0 && <div style={{color: 'white'}}>Status: {<span style={{color:'red'}}><b>Negatit</b></span>}</div>}
+            { props.item.occurrenceArray[diff] === 1 &&<div style={{color: 'white'}}>Status: {<span style={{color:'green'}}><b>Gatit</b></span>}</div>}
+           
+           <br />
+           <a style={{
+                    backgroundColor: 'yellowgreen', 
+                    color: 'white', 
+                    textDecoration: 'none',
+                    padding: 10+'px',
+                    borderRadius: 5 + 'px' 
+                    }} href="#" data-item_id={props.item._id} onClick={onClickHandler}>GATA &#10004;</a>
            <br />
            <br />
+           <hr style={{color:'white'}}/>
         </React.Fragment>
     )
 }

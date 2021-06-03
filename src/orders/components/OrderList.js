@@ -6,7 +6,7 @@ const OrderList = (props) => {
     console.log(props.items.items);
     
     return (
-        <div>
+        <div style={{padding: 15+'px'}}>
             {
                 props.items.items && props.items.items.map(item => {
                         return  <OrderItem item={item}/>;
