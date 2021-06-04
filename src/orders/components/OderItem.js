@@ -22,6 +22,7 @@ const OrderItem = (props) => {
 
     diff =  Math.floor(( Date.parse(dateInOccurenceArray) - Date.parse(props.item.startDate) ) / 86400000); 
     
+    if((new Date()).getDay() === 6){ diff = diff+1}else {diff= diff +2}
     
     //console.log(diff + 1);
 
@@ -41,10 +42,11 @@ const OrderItem = (props) => {
        
         const fetchProducts = async () => {
             try{
-                const response = sendRequest("https://foodsapiens.ro/wp-json/wc/v3/products?include=" + props.item.product_id + "&consumer_key=ck_3adcec890b5e616f0bede6b1b5226d0403eef3e1&consumer_secret=cs_dca5446d5eca811adfadac965943d8c0856f2fb0");
+                const response = await sendRequest("https://foodsapiens.ro/wp-json/wc/v3/products?include=" + props.item.product_id + "&consumer_key=ck_3adcec890b5e616f0bede6b1b5226d0403eef3e1&consumer_secret=cs_dca5446d5eca811adfadac965943d8c0856f2fb0");
             
-                //console.log(response);
-                response.then(result => setProduct(result));
+                console.log(response);
+                
+                setProduct(response);
 
 
                 
@@ -84,7 +86,7 @@ const OrderItem = (props) => {
     // (new Date()).getDay() returns the above result
 
 
-    let skipDays = new Date().getDay() === 6 ? 2 : 1;
+    let skipDays = new Date().getDay() === 6 ? 2 : 3; // schimba 3 cu 1 - 3 e pentru testare
 
     let dOfYear = dayOfYear(new Date());
 
@@ -113,7 +115,9 @@ const OrderItem = (props) => {
     let menuDay = new Date(skipDays * 86400000 + +new Date());
     //console.log(menuDay.getDay());
 
-
+    if(menuDay.getDay() === 6) {
+        return (<div style={{color: 'white', fontSize: '20px'}}><center><h1>Azi nu se gateste</h1></center></div>);
+    }
 
 
     if(a.length >= 12 ){
@@ -141,6 +145,15 @@ const OrderItem = (props) => {
     if(singleDayMenu && currentMenu === 2) {
         menuItemPosition = 3;
     }
+    console.log(!singleDayMenu);
+    console.log(!singleItem);
+    console.log(a !== undefined);
+    console.log(a.length > 0);
+    console.log(menuItemPosition);
+    console.log(a[menuItemPosition]);
+
+
+    console.log(!singleDayMenu && !singleItem && a !== undefined && a.length > 0 && menuItemPosition !== undefined && a[menuItemPosition] !== undefined)
 
     if( !singleDayMenu && !singleItem && a !== undefined && a.length > 0 && menuItemPosition !== undefined && a[menuItemPosition] !== undefined) {
         indexDelete = a[menuItemPosition].split('</strong>')[2].indexOf('<');
@@ -167,8 +180,28 @@ const OrderItem = (props) => {
     //console.log("diff", diff);
     //console.log("occurrenceArray", props.item.occurrenceArray);
 
-    const onClickHandler = (event) => {
+    const onClickHandler = async (event) => {
        event.preventDefault();
+        console.log(props.item.occurrenceArray);
+        console.log(diff);
+
+        props.item.occurrenceArray[diff] = 1;
+
+        console.log(props.item.occurrenceArray);
+
+        try {
+            const response = await sendRequest(
+                `http://localhost:5000/api/items/${event.target.dataset.item_id}`,
+                'PUT',
+                JSON.stringify({
+                    occurenceArray: props.item.occurrenceArray
+                }),
+                {
+                    'Content-Type': 'application/json'
+                }
+            );
+
+         } catch(error){}
 
         console.log(event.target.dataset.item_id);
     }
@@ -184,8 +217,8 @@ const OrderItem = (props) => {
            {!singleItem && a && menuItemPosition && <div style={{color: 'white'}}><b>Cina: </b> { cina}</div>}
            {singleItem && <div style={{color: 'white'}}><b>Meniu singular: </b> {singleItemName}</div>}
            {!singleItem &&<div style={{color: 'white'}}>Numar calorii: <b> {props.item.calorii}</b></div>}
-            { props.item.occurrenceArray[diff] === 0 && <div style={{color: 'white'}}>Status: {<span style={{color:'red'}}><b>Negatit</b></span>}</div>}
-            { props.item.occurrenceArray[diff] === 1 &&<div style={{color: 'white'}}>Status: {<span style={{color:'green'}}><b>Gatit</b></span>}</div>}
+            { props.item.occurrenceArray[diff] === 0 && <div style={{color: 'white'}}>Status: {<span style={{color:'orangered'}}><b>Negatit</b></span>}</div>}
+            { props.item.occurrenceArray[diff] === 1 &&<div style={{color: 'white'}}>Status: {<span style={{color:'greenyellow'}}><b>Gatit</b></span>}</div>}
            
            <br />
            <a style={{
@@ -194,7 +227,8 @@ const OrderItem = (props) => {
                     textDecoration: 'none',
                     padding: 10+'px',
                     borderRadius: 5 + 'px' 
-                    }} href="#" data-item_id={props.item._id} onClick={onClickHandler}>GATA &#10004;</a>
+                    }} href="#" data-item_id={props.item._id} 
+                    onClick={onClickHandler}>GATA &#10004;</a>
            <br />
            <br />
            <hr style={{color:'white'}}/>
