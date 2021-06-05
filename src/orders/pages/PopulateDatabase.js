@@ -167,6 +167,9 @@ const PopulateDatabase = (props) => {
 
     return (
         <React.Fragment>
+             <br/>
+                
+                <br/>
             {
                 isLoading && (
                     <div className="center">
@@ -174,9 +177,21 @@ const PopulateDatabase = (props) => {
                     </div>
                 )
             }
-
+               
             {
-                
+                !isLoading && (
+                    <div>
+                    <h1 className="center">Meniurile pentru azi au fost aduse cu suces!</h1>
+                    <a href="/orders" className="center"
+                        style={{
+                            backgroundColor: 'orangered',
+                            marginTop: 20+'px',
+                            color: 'white',
+                            padding: '10px',
+                            textDecoration: 'none'
+                    }}> Meniurile pentru astazi &rarr; </a>
+                    </div>
+                )
             }
         </React.Fragment>
     );

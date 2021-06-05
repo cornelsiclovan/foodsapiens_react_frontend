@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { useHttpClient } from '../../hooks/http-hook';
 import Button from '../../UIElements/Button';
+import LoadingSpinner from '../../UIElements/LoadingSpinner';
 
 const OrderItem = (props) => {
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -22,7 +23,7 @@ const OrderItem = (props) => {
 
     diff =  Math.floor(( Date.parse(dateInOccurenceArray) - Date.parse(props.item.startDate) ) / 86400000); 
     
-    if((new Date()).getDay() === 6){ diff = diff+1}else {diff= diff +2}
+    if((new Date()).getDay() === 6){ diff = diff + 1}else {diff= diff}
     
     //console.log(diff + 1);
 
@@ -86,7 +87,7 @@ const OrderItem = (props) => {
     // (new Date()).getDay() returns the above result
 
 
-    let skipDays = new Date().getDay() === 6 ? 2 : 3; // schimba 3 cu 1 - 3 e pentru testare
+    let skipDays = new Date().getDay() === 6 ? 2 : 1; // schimba 3 cu 1 - 3 e pentru testare
 
     let dOfYear = dayOfYear(new Date());
 
@@ -177,8 +178,8 @@ const OrderItem = (props) => {
         cina = a[menuItemPosition].split('</strong>')[3].slice(0, indexDelete);
     }
 
-    //console.log("diff", diff);
-    //console.log("occurrenceArray", props.item.occurrenceArray);
+    console.log("diff", diff);
+    console.log("occurrenceArray", props.item.occurrenceArray);
 
     const onClickHandler = async (event) => {
        event.preventDefault();
@@ -206,12 +207,11 @@ const OrderItem = (props) => {
         console.log(event.target.dataset.item_id);
     }
 
-    console.log(props.item._id);
-    console.log(props.item._id);
 
     return (
         <React.Fragment>
             <br />
+           <div className="center">{ !micDejun && <LoadingSpinner />} </div>
            {!singleItem && a && menuItemPosition && <div style={{color: 'white'}}><b>Mic dejun: </b> {micDejun}</div>}
            {!singleItem && a && menuItemPosition && <div style={{color: 'white'}}><b>Pranz: </b> { pranz}</div>}
            {!singleItem && a && menuItemPosition && <div style={{color: 'white'}}><b>Cina: </b> { cina}</div>}
