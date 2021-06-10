@@ -3,6 +3,7 @@ import { useHttpClient } from '../../hooks/http-hook';
 import LoadingSpinner from '../../UIElements/LoadingSpinner';
 import OrderList from '../components/OrderList';
 
+
 const PopulateDatabase = (props) => {
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const [loadedOrders, setLoadedOrders] = useState();
@@ -193,6 +194,8 @@ const PopulateDatabase = (props) => {
                     </div>
                 )
             }
+			
+			
         </React.Fragment>
     );
 }

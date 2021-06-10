@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { useHttpClient } from '../../hooks/http-hook';
 import Button from '../../UIElements/Button';
 import LoadingSpinner from '../../UIElements/LoadingSpinner';
+import Print from './Print';
 
 const OrderItem = (props) => {
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -212,10 +213,10 @@ const OrderItem = (props) => {
         <React.Fragment>
             <br />
            <div className="center">{ !micDejun && <LoadingSpinner />} </div>
-           {!singleItem && a && menuItemPosition && <div style={{color: 'white'}}><b>Mic dejun: </b> {micDejun}</div>}
-           {!singleItem && a && menuItemPosition && <div style={{color: 'white'}}><b>Pranz: </b> { pranz}</div>}
-           {!singleItem && a && menuItemPosition && <div style={{color: 'white'}}><b>Cina: </b> { cina}</div>}
-           {singleItem && <div style={{color: 'white'}}><b>Meniu singular: </b> {singleItemName}</div>}
+           {!singleItem && a && menuItemPosition && <div style={{color: 'white', padding: '5px'}}><b>Mic dejun: </b> {micDejun} <Print item={micDejun} calorii={props.item.calorii} name={"mic dejun"}/></div> }
+           {!singleItem && a && menuItemPosition && <div style={{color: 'white', padding: '5px'}}><b>Pranz: </b> { pranz} <Print item={pranz} calorii={props.item.calorii} name={"pranz/cina"}/> </div>}
+           {!singleItem && a && menuItemPosition && <div style={{color: 'white', padding: '5px'}}><b>Cina: </b> { cina}  <Print item={cina} calorii={props.item.calorii} name={"pranz/cina"}/> </div>}
+           {singleItem && <div style={{color: 'white'}}><b>Meniu singular: </b> {singleItemName} <Print item={singleItemName} calorii={""} name={""}/></div>}
            {!singleItem &&<div style={{color: 'white'}}>Numar calorii: <b> {props.item.calorii}</b></div>}
             { props.item.occurrenceArray[diff] === 0 && <div style={{color: 'white'}}>Status: {<span style={{color:'orangered'}}><b>Negatit</b></span>}</div>}
             { props.item.occurrenceArray[diff] === 1 &&<div style={{color: 'white'}}>Status: {<span style={{color:'greenyellow'}}><b>Gatit</b></span>}</div>}
